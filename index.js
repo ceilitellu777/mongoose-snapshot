@@ -1,50 +1,43 @@
 const mongoose = require("mongoose");
 const { createHistoryModel } = require("./db/schema");
+const { ProcessConfig } = require("../mongo-snapshot/configs/config");
 
-let GO = false;
+const init = async (initOptions) => {
+  mongoose.connection.on("connected", async () => {
+    let historyCollections = [];
+    let collections = [];
+    let collectionsNotRecorded = [];
 
-const watch = function (schema, options) {
-  let historyCollections = [];
-  let collections = [];
-  let collectionsNotRecorded = [];
+    mongoose.modelNames()?.forEach((collName) => {
+      if (
+        collName?.includes(
+          initOptions?.historyModelSuffix
+            ? initOptions?.historyModelSuffix
+            : "_History"
+        )
+      ) {
+        historyCollections.push(collName);
+      } else {
+        collections?.push(collName);
+      }
+    });
 
-  if (GO) {
-    mongoose.connection.on("open", async () => {
-      mongoose.modelNames()?.forEach((collName) => {
-        if (collName?.includes("_History")) {
-          historyCollections.push(collName);
-        } else {
-          collections?.push(collName);
+    if (!(historyCollections.length === collections?.length)) {
+      collections.forEach((coll) => {
+        if (!historyCollections.find((histColl) => histColl?.includes(coll))) {
+          collectionsNotRecorded.push(coll);
         }
       });
-
-      if (!(historyCollections.length === collections?.length)) {
-        collections.forEach((coll) => {
-          if (
-            !historyCollections.find((histColl) => histColl?.includes(coll))
-          ) {
-            collectionsNotRecorded.push(coll);
-          }
-        });
-      }
-
-      collectionsNotRecorded.forEach((collectionNR) => {
-        createHistoryModel(collectionNR);
-      });
-
-      GO = true;
-    });
-  }
-
-  schema.post(
-    ["save", "update", "remove", "findOneAndUpdate", "findOneAndRemove"],
-    async function () {
-      // code goes here
-      console.log(this);
     }
-  );
+
+    // console.log("Vulgeiroth ::: I", collectionsNotRecorded);
+    // console.log("Vulgeiroth ::: II", collections);
+    // console.log("Vulgeiroth ::: III", historyCollections);
+
+    collectionsNotRecorded.forEach((collectionNR) => {
+      createHistoryModel(collectionNR, initOptions?.historyModelSuffix);
+    });
+  });
 };
 
-module.exports = {
-  watch,
-};
+module.exports = init;

@@ -4,6 +4,9 @@ const { ProcessConfig } = require("../mongo-snapshot/configs/config");
 
 const init = async (initOptions) => {
   mongoose.connection.on("connected", async () => {
+    if (initOptions.historyModelSuffix)
+      ProcessConfig.setHMSuffix(historyModelSuffix);
+
     let historyCollections = [];
     let collections = [];
     let collectionsNotRecorded = [];

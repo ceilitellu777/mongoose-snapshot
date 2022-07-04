@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 class ProcessConfig {
-  static SYNCHRONIZED_MODELS = true;
+  static historyModelSuffix = "_History";
 
-  static getSynchronizedModelValue() {
-    return this.SYNCHRONIZED_MODELS;
+  static getHMSuffix() {
+    return this.historyModelSuffix;
   }
 
-  static setSynchronizedModelValue(value) {
-    this.SYNCHRONIZED_MODELS = value;
+  static setHMSuffix(value) {
+    this.historyModelSuffix = value;
   }
 }
 

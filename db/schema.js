@@ -6,6 +6,10 @@ const createHistoryModel = async (schemaName, modelCustomSuffix) => {
       type: mongoose.Schema.Types.Number,
       required: true,
     },
+    ref: {
+      type: mongoose.Schema.Types.String,
+      required: true,
+    },
     modifs: {
       create: {
         type: mongoose.Schema.Types.String,

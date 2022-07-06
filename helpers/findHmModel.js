@@ -1,7 +1,7 @@
 const { ProcessConfig } = require("../configs/config");
 const mongoose = require("mongoose");
 
-const findModel = (modelName) => {
+const findHmModel = (modelName) => {
   let diffsDocKey = Object.keys(mongoose.models).find(
     (modelKey) => modelKey === modelName + ProcessConfig.getHMSuffix()
   );
@@ -12,5 +12,5 @@ const findModel = (modelName) => {
 };
 
 module.exports = {
-  findModel,
+  findHmModel,
 };

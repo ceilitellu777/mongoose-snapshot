@@ -27,6 +27,11 @@ const createHistoryModel = async (schemaName, modelCustomSuffix) => {
         default: "",
       },
     },
+    branch: {
+      type: mongoose.Schema.Types.String,
+      required: false,
+      default: "master",
+    },
   });
 
   let model = mongoose.model(

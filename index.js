@@ -7,21 +7,26 @@ const init = async (initOptions) => {
     if (initOptions.historyModelSuffix)
       ProcessConfig.setHMSuffix(historyModelSuffix);
 
+    if (initOptions?.historyLogsModelName)
+      ProcessConfig.setHistoryLogsModelName(initOptions?.historyLogsModelName);
+
     let historyCollections = [];
     let collections = [];
     let collectionsNotRecorded = [];
 
     mongoose.modelNames()?.forEach((collName) => {
-      if (
-        collName?.includes(
-          initOptions?.historyModelSuffix
-            ? initOptions?.historyModelSuffix
-            : "_History"
-        )
-      ) {
-        historyCollections.push(collName);
-      } else {
-        collections?.push(collName);
+      if (collName !== ProcessConfig.getHistoryLogsModelName()) {
+        if (
+          collName?.includes(
+            initOptions?.historyModelSuffix
+              ? initOptions?.historyModelSuffix
+              : "_History"
+          )
+        ) {
+          historyCollections.push(collName);
+        } else {
+          collections?.push(collName);
+        }
       }
     });
 

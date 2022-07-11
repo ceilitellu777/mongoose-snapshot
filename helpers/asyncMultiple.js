@@ -1,20 +1,17 @@
-let counter = 0;
+const { ProcessConfig } = require("../configs/config");
 
 const asyncMultiple = async (cbParamsArray, cb) => {
-  if (counter < cbParamsArray?.length) {
-    // console.log(
-    //   "Findeit :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
-    //   counter,
-    //   cbParamsArray[counter]
-    // );
+  if (ProcessConfig.getModelsCountIterator() < cbParamsArray?.length) {
+    await cb(cbParamsArray[ProcessConfig.getModelsCountIterator()]);
 
-    await cb(cbParamsArray[counter]);
+    ProcessConfig.setModelsCountIterator(
+      ProcessConfig.getModelsCountIterator() + 1
+    );
 
-    counter++;
-
-    //splice the the array as advancing process on it
     return await asyncMultiple(cbParamsArray, cb);
   } else {
+    ProcessConfig.setModelsCountIterator(0);
+
     return Promise.resolve();
   }
 };

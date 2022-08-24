@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 
+/**
+ * Create an history mongoose model for every model having not an history model
+ * @param {String} schemaName The name of the model schema
+ * @param {String} modelCustomSuffix [Not required] The suffix used to assign the history model name. If not given, the default is used
+ * @returns {Object} returns the new history model created
+ */
 const createHistoryModel = async (schemaName, modelCustomSuffix) => {
   let modelSchema = new mongoose.Schema({
     timestamp: {

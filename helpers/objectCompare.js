@@ -1,5 +1,8 @@
-const { appLogger } = require("../../../utils/logs");
-
+/**
+ * This is a function implementing the object deep compare algorithm
+ * @param {Object} toCompare The base Object of comparison
+ * @param {Object} object The other object of reference
+ */
 const objectKeysCompare = (toCompare, object) => {
   let objDiffs = {};
 

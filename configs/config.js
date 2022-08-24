@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+/**
+ * Runtime configurations class
+ */
 class ProcessConfig {
   static historyModelSuffix = "_History";
   static writeOpPurpose = "";

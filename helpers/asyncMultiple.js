@@ -1,12 +1,11 @@
 const { ProcessConfig } = require("../configs/config");
-const { appLogger } = require("../../../utils/logs");
 
+/**
+ * This is a function performing the recusive asynchronous functions execution on a array of objects
+ * @param {Object} cbParamsArray Objects array  to pass on every callback execution
+ * @param {Object} cb The asyncronous function to perform on every onject into the array, first parameter
+ */
 const asyncMultiple = async (cbParamsArray, cb) => {
-  console.info(
-    "Performing async multiple on this objects table ",
-    cbParamsArray
-  );
-
   if (ProcessConfig.getModelsCountIterator() < cbParamsArray?.length) {
     await cb(cbParamsArray[ProcessConfig.getModelsCountIterator()]);
 

@@ -1,6 +1,12 @@
 const { ProcessConfig } = require("../configs/config");
+const { appLogger } = require("../../../utils/logs");
 
 const asyncMultiple = async (cbParamsArray, cb) => {
+  console.info(
+    "Performing async multiple on this objects table ",
+    cbParamsArray
+  );
+
   if (ProcessConfig.getModelsCountIterator() < cbParamsArray?.length) {
     await cb(cbParamsArray[ProcessConfig.getModelsCountIterator()]);
 

@@ -3,6 +3,8 @@ const { createHistoryModel } = require("./db/schema");
 const { ProcessConfig } = require("../mongo-snapshot/configs/config");
 
 const init = async (initOptions) => {
+  console.info("Initializing the mongo-snapshot plugin");
+
   mongoose.connection.on("connected", async () => {
     if (initOptions.historyModelSuffix)
       ProcessConfig.setHMSuffix(historyModelSuffix);
@@ -37,10 +39,6 @@ const init = async (initOptions) => {
         }
       });
     }
-
-    // console.log("Vulgeiroth ::: I", collectionsNotRecorded);
-    // console.log("Vulgeiroth ::: II", collections);
-    // console.log("Vulgeiroth ::: III", historyCollections);
 
     collectionsNotRecorded.forEach((collectionNR) => {
       createHistoryModel(collectionNR, initOptions?.historyModelSuffix);
